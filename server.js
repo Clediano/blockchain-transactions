@@ -1,4 +1,23 @@
-const { port, endpoint, masterKey } = require('./src/config/secret');
-console.log(`Your port is ${port}`);
-console.log(`Your endpoint is ${endpoint}`);
-console.log(`Your masterKey is ${masterKey}`);
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const morgan = require('morgan')
+const helmet = require('helmet');
+const { port } = require('./src/config/secret');
+
+const app = express();
+
+app.use(helmet());
+app.use(morgan('tiny'));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+app.use(cors());
+
+require('./src/routes/address')(app);
+require('./src/routes/wallet')(app);
+
+app.listen(port, () => {
+    console.log('Serviço iniciado com sucesso! Porta: ' + port)
+});

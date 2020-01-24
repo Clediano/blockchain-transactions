@@ -8,8 +8,6 @@ class BlockchainAddress {
             .catch(err => err);
     };
 
-
-
 }
 
 module.exports = new BlockchainAddress();

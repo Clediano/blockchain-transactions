@@ -1,4 +1,3 @@
-const BlockchainTransaction = require('../../services/blockchain/blockchain.transaction');
 const blockchain = require('../../config/blockchain');
 
 const TRANSACTION_FEE = {

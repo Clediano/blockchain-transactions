@@ -1,16 +1,15 @@
 const express = require('express');
 const routes = express.Router();
 
-const AddressesController = require('./controllers/blockchain/AddressesController');
-const TransactionController = require('./controllers/blockchain/TransactionController');
+const AddressController = require('./controllers/blockchain/address');
+const TransactionController = require('./controllers/blockchain/transaction');
 
 //Addresses
-routes.get('/address/create_new_address', AddressesController.createNewAddress);
+routes.get('/address/create_new_address', AddressController.createNewAddress);
 
 //Transaction
+routes.get('/transaction/get_transaction_by_block/:txid', TransactionController.getTransactionIndexByBlock);
 routes.get('/transaction/get_transaction/:txid', TransactionController.getTransaction);
-routes.post('/transaction/create_transaction', TransactionController.newTransaction);
-routes.get('/transaction/get_transactions_fee', TransactionController.getTransactionsFee);
-
+routes.post('/transaction/new_transaction', TransactionController.newTransaction);
 
 module.exports = routes;

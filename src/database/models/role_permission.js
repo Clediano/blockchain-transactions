@@ -1,4 +1,7 @@
 'use strict';
+
+const uuid = require('uuid/v4');
+
 module.exports = (sequelize, DataTypes) => {
   const RolePermission = sequelize.define('role_permission', {
     roleid: {
@@ -15,9 +18,15 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-  }, {});
+  }, {
+    hooks: {
+      beforeCreate: rolepermission => {
+        rolepermission.id = uuid();
+      }
+    }
+  });
   RolePermission.associate = function (models) {
-    
+
     RolePermission.hasMany(models.role, {
       foreignKey: 'roleid',
     });

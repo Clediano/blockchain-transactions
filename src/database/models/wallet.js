@@ -31,11 +31,11 @@ module.exports = (sequelize, DataTypes) => {
     },
         {
             hooks: {
-                beforeCreate: async wallet => {
+                beforeCreate: wallet => {
                     wallet.id = uuid();
                     wallet.privatekey = Crypto.encript(wallet.getDataValue('privatekey'))
                 },
-                beforeUpdate: async wallet => {
+                beforeUpdate: wallet => {
                     wallet.privatekey = Crypto.encript(wallet.getDataValue('privatekey'))
                 }
             }

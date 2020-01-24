@@ -1,5 +1,7 @@
 'use strict';
 
+const uuid = require('uuid/v4');
+
 module.exports = (sequelize, DataTypes) => {
   const Organization = sequelize.define('organization', {
     name: {
@@ -29,7 +31,13 @@ module.exports = (sequelize, DataTypes) => {
         this.setDataValue('email', email.toString().toLowerCase());
       }
     },
-  }, {});
+  }, {
+    hooks: {
+      beforeCreate: organization => {
+        organization.id = uuid();
+      }
+    }
+  });
   Organization.associate = function (models) {
 
     Organization.hasMany(models.document, {

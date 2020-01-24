@@ -32,15 +32,13 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-  },
-    {
-      hooks: {
-        beforeCreate: async transaction => {
-          transaction.id = uuid();
-        }
+  }, {
+    hooks: {
+      beforeCreate: transaction => {
+        transaction.id = uuid();
       }
     }
-  );
+  });
   Transaction.associate = function (models) {
     Transaction.belongsTo(models.document, {
       foreignKey: 'documentid'

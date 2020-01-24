@@ -1,4 +1,7 @@
 'use strict';
+
+const uuid = require('uuid/v4');
+
 module.exports = (sequelize, DataTypes) => {
   const UserRole = sequelize.define('user_role', {
     userid: {
@@ -15,8 +18,14 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-  }, {});
-  UserRole.associate = function(models) {
+  }, {
+    hooks: {
+      beforeCreate: userrole => {
+        userrole.id = uuid();
+      }
+    }
+  });
+  UserRole.associate = function (models) {
     UserRole.hasMany(models.role, {
       foreignKey: 'roleid',
     });

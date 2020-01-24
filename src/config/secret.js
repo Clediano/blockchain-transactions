@@ -1,7 +1,8 @@
 const dotenv = require('dotenv');
 dotenv.config();
 module.exports = {
-  endpoint: process.env.API_URL,
-  masterKey: process.env.API_KEY,
-  port: process.env.PORT
+  port: process.env.PORT,
+  api_key:  process.env.CRYPTO_API_KEY,
+  network: process.env.NETWORK,
+  auth_key: process.env.AUTH_SECRET
 };

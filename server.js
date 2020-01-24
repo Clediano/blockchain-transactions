@@ -15,8 +15,9 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cors());
 
-require('./src/routes/address')(app);
-require('./src/routes/wallet')(app);
+require('./src/routes/blockchain/address')(app);
+require('./src/routes/blockchain/transaction')(app);
+require('./src/routes/authentication/user')(app);
 
 app.listen(port, () => {
     console.log('Serviço iniciado com sucesso! Porta: ' + port)

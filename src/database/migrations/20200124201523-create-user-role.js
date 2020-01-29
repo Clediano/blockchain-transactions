@@ -4,15 +4,24 @@ module.exports = {
     return queryInterface.createTable('user_roles', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       userid: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
       },
       roleid: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: 'roles',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,

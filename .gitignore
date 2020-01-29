@@ -4,5 +4,6 @@ yarn.lock
 .env
 package-lock.json
 
+.idea/*
 tmp/*
 !tmp/.gitkeep

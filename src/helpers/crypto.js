@@ -1,18 +1,20 @@
 const crypto = require('crypto');
 
-const alg = 'aes-256-ctr';
-const pwd = 'HuxKr9zi@tov!xDAy%qifLCMU@eZvd';
+const algorithm = 'aes-192-cbc';
+const password = 'HuxKr9zi@tov!xDAy%qifLCMU@eZvd';
+const key = crypto.scryptSync(password, 'salt', 24);
+const iv = Buffer.alloc(16, 0);
 
 class Crypto {
     encript(string) {
-        const cipher = crypto.createCipher(alg, pwd);
+        const cipher = crypto.createCipheriv(algorithm, key, iv);
         const crypted = cipher.update(string, 'utf8', 'hex')
 
         return crypted;
     }
 
     decript(string) {
-        const decipher = crypto.createDecipher(alg, pwd);
+        const decipher = crypto.createDecipheriv(algorithm, key, iv);
         const decrypted = decipher.update(string, 'hex', 'utf8');
 
         return decrypted;
@@ -22,7 +24,7 @@ class Crypto {
         const hash = crypto.createHash('sha256');
         const hashed = hash.update(string, 'utf8');
 
-        return hashed;
+        return hashed.digest('hex');
     }
 }
 

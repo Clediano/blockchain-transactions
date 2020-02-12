@@ -43,10 +43,12 @@ module.exports = (sequelize, DataTypes) => {
 
         Organization.hasMany(models.document, {
             foreignKey: 'organizationid',
+            as: 'documents'
         });
 
         Organization.hasOne(models.wallet, {
             foreignKey: 'organizationid',
+            as: 'wallet'
         });
 
         Organization.hasMany(models.user, {

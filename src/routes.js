@@ -3,13 +3,24 @@ const routes = express.Router();
 
 const AddressController = require('./controllers/blockchain/address');
 const TransactionController = require('./controllers/blockchain/transaction');
+const UserController = require('./controllers/authentication/user');
+const OrganizationController = require('./controllers/authentication/organization');
+
+const AuthenticationService = require('./services/authentication/authentication.token');
+
+//Organization
+routes.post('/organization', OrganizationController.createOrganization);
+
+//User
+routes.post('/user/:id', UserController.createUser);
+routes.post('/user/authenticate', UserController.authenticate);
 
 //Addresses
-routes.get('/address/create_new_address', AddressController.createNewAddress);
+routes.get('/address', AddressController.createNewAddress);
 
 //Transaction
-routes.get('/transaction/get_transaction_by_block/:txid', TransactionController.getTransactionIndexByBlock);
-routes.get('/transaction/get_transaction/:txid', TransactionController.getTransaction);
-routes.post('/transaction/new_transaction', TransactionController.newTransaction);
+routes.get('/transaction/block/:txid', TransactionController.getTransactionIndexByBlock);
+routes.get('/transaction/:txid', TransactionController.getTransaction);
+routes.post('/transaction', AuthenticationService.authorize, TransactionController.newTransaction);
 
 module.exports = routes;

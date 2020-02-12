@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const morgan = require('morgan')
+const morgan = require('morgan');
 const helmet = require('helmet');
-const { port } = require('./src/config/secret');
+const {port} = require('./src/config/secret');
 
 const app = express();
 
@@ -15,9 +15,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cors());
 
-require('./src/routes/blockchain/address')(app);
-require('./src/routes/blockchain/transaction')(app);
-require('./src/routes/authentication/user')(app);
+app.use(require('./src/routes'));
 
 app.listen(port, () => {
     console.log('Serviço iniciado com sucesso! Porta: ' + port)

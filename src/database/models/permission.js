@@ -19,9 +19,9 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
     Permission.associate = function (models) {
-        Permission.belongsToMany(models.permission, {
-            through: 'role_permissions',
-            as: 'roles',
+        Permission.belongsToMany(models.user, {
+            through: 'user_permissions',
+            as: 'users',
             foreignKey: 'permissionid'
         });
     };

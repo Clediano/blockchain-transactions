@@ -7,24 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     match: {
       type: DataTypes.BOOLEAN
     },
-    invitedid: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      onDelete: 'CASCADE',
-      references: {
-        model: 'organizations',
-        key: 'id'
-      }
-    },
-    interestedid: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      onDelete: 'CASCADE',
-      references: {
-        model: 'organizations',
-        key: 'id'
-      }
-    },
   },
     {
       hooks: {
@@ -38,12 +20,12 @@ module.exports = (sequelize, DataTypes) => {
 
     Friend.belongsTo(models.organization, {
       foreignKey: 'interestedid',
-      as: 'Interested'
+      as: 'interested'
     });
 
     Friend.belongsTo(models.organization, {
       foreignKey: 'invitedid',
-      as: 'Invited'
+      as: 'invited'
     });
 
   };

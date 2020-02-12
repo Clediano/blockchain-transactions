@@ -4,6 +4,13 @@ module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.bulkInsert('permissions', [
             {
+                id: '97c5fe24-63f8-4a51-b0fa-04bcc504e97f',
+                name: 'VIEW',
+                description: 'View record',
+                createdAt: new Date(),
+                updatedAt: new Date()
+            },
+            {
                 id: 'd473433a-2d3d-4d86-ace0-1cd82b24c26f',
                 name: 'INSERT',
                 description: 'Insert a new record',

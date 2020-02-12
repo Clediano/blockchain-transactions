@@ -25,13 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     confirmed: {
       type: DataTypes.BOOLEAN
     },
-    documentid: {
-      type: DataTypes.UUID,
-      references: {
-        model: 'documents',
-        key: 'id'
-      }
-    },
   }, {
     hooks: {
       beforeCreate: transaction => {
@@ -41,7 +34,8 @@ module.exports = (sequelize, DataTypes) => {
   });
   Transaction.associate = function (models) {
     Transaction.belongsTo(models.document, {
-      foreignKey: 'documentid'
+      foreignKey: 'documentid',
+      as: 'document'
     });
   };
   return Transaction;

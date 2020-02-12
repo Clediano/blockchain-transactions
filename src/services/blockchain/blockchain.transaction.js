@@ -4,7 +4,7 @@ const TRANSACTION_FEE = {
     MIN: 'min',
     MAX: 'max',
     NORMAL: 'average'
-}
+};
 
 class BlockchianTransaction {
 

@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
                 isEmail: true
             },
             set(email) {
-                this.setDataValue('email', email.toString().toLowerCase());
+                this.setDataValue('email', email.toLowerCase());
             }
         },
         password: {
@@ -56,9 +56,14 @@ module.exports = (sequelize, DataTypes) => {
             as: 'invited'
         });
 
-        User.belongsToMany(models.role, {
-            through: 'user_roles',
-            as: 'roles',
+        User.belongsTo(models.organization, {
+            foreignKey: 'organizationid',
+            as: 'organization'
+        });
+
+        User.belongsToMany(models.permission, {
+            through: 'user_permissions',
+            as: 'permissions',
             foreignKey: 'userid'
         });
 

@@ -1,23 +1,18 @@
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('role_permissions', {
-            id: {
-                allowNull: false,
-                primaryKey: true,
-                type: Sequelize.UUID
-            },
-            roleid: {
+        return queryInterface.createTable('user_permissions', {
+            userid: {
                 type: Sequelize.UUID,
-                allowNull: false,
+                primaryKey: true,
                 references: {
-                    model: 'roles',
+                    model: 'users',
                     key: 'id'
                 }
             },
             permissionid: {
                 type: Sequelize.UUID,
-                allowNull: false,
+                primaryKey: true,
                 references: {
                     model: 'permissions',
                     key: 'id'
@@ -34,6 +29,6 @@ module.exports = {
         });
     },
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('role_permissions');
+        return queryInterface.dropTable('user_permissions');
     }
 };

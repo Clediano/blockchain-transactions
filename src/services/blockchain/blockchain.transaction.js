@@ -1,3 +1,4 @@
+const Wallet = require('../../database/postgres/models').wallet;
 const blockchain = require('../../config/blockchain');
 
 const TRANSACTION_FEE = {
@@ -9,58 +10,62 @@ const TRANSACTION_FEE = {
 class BlockchianTransaction {
 
     /**
-     * 
+     *
      * @param {String} txid Id of the transaction in blockchain
      */
     getTransaction(txid) {
-        return blockchain.transaction.getTransaction(txid)
-            .then(result => result)
-            .catch(err => err);
+        return blockchain.transaction.getTransaction(txid);
     };
 
     /**
-     * 
+     *
      * @param {String} block Block height or block hash in blockchain
      */
     getTransactionIndexByBlock(block) {
-        return blockchain.transaction.getTransactionIndexByBlock(block)
-            .then(result => result)
-            .catch(err => err);
+        return blockchain.transaction.getTransactionIndexByBlock(block);
     };
 
     /**
-     * 
+     *
      * @param {Object} body Object with data string and priority (MIN, MAX or NORMAL - default)
      */
-    async newTransaction(body) {
-        const { data, priority = "NORMAL" } = body;
+    async newTransaction(body, organizationid) {
+        const {data, priority = "NORMAL"} = body;
 
-        const { payload } = await this.getTransactionsFee();
+        const wallet = await Wallet.findOne({where: {organizationid: organizationid}});
 
-        return blockchain.transaction.newTransaction(
-            [{
-                "address": "mqxb9QK3bYSdG89em1S7Yw7eVnmgPU41YK",
-                "value": 0.00009
-            }],
-            [{
-                "address": "mqxb9QK3bYSdG89em1S7Yw7eVnmgPU41YK",
-                "value": 0.00009
-            }],
-            {
-                "address": "mqxb9QK3bYSdG89em1S7Yw7eVnmgPU41YK",
-                "value": payload[TRANSACTION_FEE[priority]]
-            },
-            ["cMhXAyYty3wFf6nWGg9XRMRAdNQy2JT8spx9sn8abZpbZBv6ZCJa"],
-            {
-                data: data
-            }
-        );
+        if (!wallet) return null;
+
+        const {payload} = await this.getTransactionsFee();
+
+        if (!payload) return null;
+
+        try {
+            return blockchain.transaction.newTransaction(
+                [{
+                    "address": wallet.dataValues.address,
+                    "value": 0.00009
+                }],
+                [{
+                    "address": wallet.dataValues.address,
+                    "value": 0.00009
+                }],
+                {
+                    "address": wallet.dataValues.address,
+                    "value": payload[TRANSACTION_FEE[priority]]
+                },
+                [wallet.dataValues.wif],
+                {
+                    data: data
+                }
+            );
+        } catch (e) {
+            return e;
+        }
     };
 
     getTransactionsFee() {
-        return blockchain.transaction.getTransactionsFee()
-            .then(result => result)
-            .catch(err => err);
+        return blockchain.transaction.getTransactionsFee();
     };
 
 }

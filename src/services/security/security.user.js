@@ -1,11 +1,17 @@
-const User = require('../../database/models').user;
+const User = require('../../database/postgres/models').user;
 
 const Crypto = require('../../helpers/crypto');
 
-class AuthenticationUsers {
+class SecurityUsers {
 
     create(name, email, password, organizationid) {
-        return User.create({name, email, password, organizationid});
+        const defaultData = {
+            name,
+            email,
+            password: Crypto.hash(password),
+            organizationid
+        };
+        return User.findOrCreate({where: {email}, defaults: {defaultData}});
     }
 
     remove(id) {
@@ -34,4 +40,4 @@ class AuthenticationUsers {
 
 }
 
-module.exports = new AuthenticationUsers();
+module.exports = new SecurityUsers();

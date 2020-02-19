@@ -1,6 +1,6 @@
-const Organization = require('../../database/models').organization;
+const Organization = require('../../database/postgres/models').organization;
 
-class AuthenticationOrganization {
+class SecurityOrganization {
 
     /**
      * @param name, type, cpf, cnpj, email
@@ -19,4 +19,4 @@ class AuthenticationOrganization {
 
 }
 
-module.exports = new AuthenticationOrganization();
+module.exports = new SecurityOrganization();

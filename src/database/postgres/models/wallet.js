@@ -1,7 +1,7 @@
 'use strict';
 
 const uuid = require('uuid/v4');
-const Crypto = require('../../helpers/crypto');
+const Crypto = require('../../../helpers/crypto');
 
 module.exports = (sequelize, DataTypes) => {
     const Wallet = sequelize.define('wallet', {

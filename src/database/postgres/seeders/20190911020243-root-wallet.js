@@ -1,6 +1,6 @@
 'use strict';
 
-const Crypto = require('../../helpers/crypto');
+const Crypto = require('../../../helpers/crypto');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

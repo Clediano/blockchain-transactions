@@ -21,4 +21,6 @@ module.exports = {
   mail_port: process.env.MAIL_PORT,
 
   base_url_frontend: process.env.BASE_URL_FRONTEND,
+
+  mongo_connection: process.env.MONGO_CONNECTION,
 };

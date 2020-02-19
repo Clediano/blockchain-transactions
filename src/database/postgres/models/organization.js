@@ -11,7 +11,10 @@ module.exports = (sequelize, DataTypes) => {
         type: {
             type: DataTypes.ENUM,
             values: ['FISICA', 'JURIDICA'],
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isIn: [['FISICA', 'JURIDICA']]
+            }
         },
         cpf: {
             type: DataTypes.STRING,

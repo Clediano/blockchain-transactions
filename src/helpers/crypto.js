@@ -11,18 +11,25 @@ class Crypto {
         const crypted = cipher.update(string, 'utf8', 'hex')
 
         return crypted;
-    }
+    };
 
     decript(string) {
         const decipher = crypto.createDecipheriv(algorithm, key, iv);
         const decrypted = decipher.update(string, 'hex', 'utf8');
 
         return decrypted;
-    }
+    };
 
     hash(string) {
         const hash = crypto.createHash('sha256');
         const hashed = hash.update(string, 'utf8');
+
+        return hashed.digest('hex');
+    };
+
+    hashBuffer(arrayBuffer) {
+        const hash = crypto.createHash('sha256');
+        const hashed = hash.update(arrayBuffer);
 
         return hashed.digest('hex');
     }

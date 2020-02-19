@@ -7,7 +7,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID
       },
-      transaction: {
+      txid: {
         type: Sequelize.STRING(1000)
       },
       height: {

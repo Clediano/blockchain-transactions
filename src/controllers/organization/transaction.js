@@ -18,44 +18,65 @@ class TransactionController {
                 return res.status(400).send({message: 'Erro ao ler o arquivo, por favor, tente novamente.'});
             }
 
-            const archive = await Archive.create({hash: Crypto.hashBuffer(file), filename, mimetype, size, file});
+            Archive.create({hash: Crypto.hashBuffer(file), filename, mimetype, size, file})
+                .then(archive => {
+                    fs.unlink(req.file.path, err => {
+                        if (err) {
+                            Archive.remove(archive._id.toHexString());
+                            return res.status(400).send({
+                                message: 'Ocorreu um erro ao criar uma nova transação.',
+                                details: err
+                            });
+                        }
+                    });
 
-            if (archive) {
-                fs.unlink(req.file.path, err => {
-                    if (err) {
-                        Archive.remove(archive._id.toHexString());
-                        return res.status(400).send({
-                            message: 'Ocorreu um erro ao criar uma nova transação.',
-                            details: err
+                    BlockchainTransaction.newTransaction({data: archive.hash}, organization)
+                        .then(({payload: transaction}) => {
+                            Document.create(archive._id.toHexString(), organization)
+                                .then(({dataValues: document}) => {
+                                    OrganizationTransaction.create({
+                                        txid: transaction.txid,
+                                        confirmed: false,
+                                        documentid: document.id
+                                    }).then(({dataValues: organizationTransaction}) => {
+                                        return res.status(200).send(organizationTransaction);
+                                    }).catch(err => {
+                                        return res.status(400).send({
+                                            message: 'Ocorreu um erro ao criar o documento.',
+                                            details: err
+                                        });
+                                    })
+                                })
+                                .catch(err => {
+                                    return res.status(400).send({
+                                        message: 'Erro ao registrar o documento.',
+                                        details: err
+                                    });
+                                });
+                        })
+                        .catch(err => {
+                            return res.status(400).send({
+                                message: 'Erro ao salvar o arquivo, por favor, tente novamente.',
+                                details: err
+                            });
                         });
-                    }
+                })
+                .catch(err => {
+                    return res.status(400).send({
+                        message: 'Erro ao salvar o arquivo, por favor, tente novamente.',
+                        details: err
+                    });
                 });
-            } else {
-                return res.status(400).send({message: 'Erro ao salvar o arquivo, por favor, tente novamente.'});
-            }
-
-            const document = await Document.create(archive._id.toHexString(), organization);
-
         });
     }
 
     getTransaction(req, res) {
         BlockchainTransaction.getTransaction(req.params.txid)
             .then(transaction => {
-                res.send(transaction);
+                return transaction;
             })
             .catch(err => {
-                res.send(err);
-            })
-    };
-
-    getTransactionIndexByBlock(req, res) {
-        BlockchainTransaction.getTransactionIndexByBlock(req.params.block)
-            .then(transaction => {
-                res.send(transaction);
-            })
-            .catch(err => {
-                res.send(err);
+                return res.send(err);
             })
     };
 

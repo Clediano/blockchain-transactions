@@ -4,7 +4,7 @@ const uuid = require('uuid/v4');
 
 module.exports = (sequelize, DataTypes) => {
   const Transaction = sequelize.define('transaction', {
-    transaction: {
+    txid: {
       type: DataTypes.STRING
     },
     height: {

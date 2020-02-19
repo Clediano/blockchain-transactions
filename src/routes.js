@@ -21,8 +21,8 @@ routes.post('/user/:organizationid', UserController.createUser);
 routes.post('/authentication', UserController.authenticate);
 
 //Transaction
-routes.get('/transaction/block/:txid', TransactionController.getTransactionIndexByBlock);
-routes.get('/transaction/:txid', TransactionController.getTransaction);
+// routes.get('/transaction/block/:txid', TransactionController.getTransactionIndexByBlock);
+// routes.get('/transaction/:txid', TransactionController.getTransaction);
 routes.post('/transaction', AuthenticationService.authorize, upload.single('file'), TransactionController.createTransaction);
 
 //Archives

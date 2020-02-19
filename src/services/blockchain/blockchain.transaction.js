@@ -40,28 +40,25 @@ class BlockchianTransaction {
 
         if (!payload) return null;
 
-        try {
-            return blockchain.transaction.newTransaction(
-                [{
-                    "address": wallet.dataValues.address,
-                    "value": 0.00009
-                }],
-                [{
-                    "address": wallet.dataValues.address,
-                    "value": 0.00009
-                }],
-                {
-                    "address": wallet.dataValues.address,
-                    "value": payload[TRANSACTION_FEE[priority]]
-                },
-                [wallet.dataValues.wif],
-                {
-                    data: data
-                }
-            );
-        } catch (e) {
-            return e;
-        }
+        return await blockchain.transaction.newTransaction(
+            [{
+                "address": wallet.dataValues.address,
+                "value": 0.00009
+            }],
+            [{
+                "address": wallet.dataValues.address,
+                "value": 0.00009
+            }],
+            {
+                "address": wallet.dataValues.address,
+                "value": payload[TRANSACTION_FEE[priority]]
+            },
+            [wallet.dataValues.wif],
+            {
+                data: data
+            }
+        );
+
     };
 
     getTransactionsFee() {

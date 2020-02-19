@@ -79,16 +79,6 @@ class TransactionController {
                 return res.send(err);
             })
     };
-
-    newTransaction(req, res) {
-        BlockchainTransaction.newTransaction(req.body)
-            .then(newTransaction => {
-                res.send(newTransaction);
-            })
-            .catch(err => {
-                res.send(err);
-            })
-    }
 }
 
 module.exports = new TransactionController();

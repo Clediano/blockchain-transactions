@@ -8,10 +8,9 @@ const upload = multer(uploadConfig);
 const TransactionController = require('./controllers/organization/transaction');
 const UserController = require('./controllers/authentication/user');
 const OrganizationController = require('./controllers/authentication/organization');
+const ArchiveController = require('./controllers/archive/archive');
 
 const AuthenticationService = require('./services/security/security.token');
-
-const ArchiveController = require('./controllers/archive/archive');
 
 //Organization
 routes.post('/organization', OrganizationController.createOrganization);
@@ -21,8 +20,6 @@ routes.post('/user/:organizationid', UserController.createUser);
 routes.post('/authentication', UserController.authenticate);
 
 //Transaction
-// routes.get('/transaction/block/:txid', TransactionController.getTransactionIndexByBlock);
-// routes.get('/transaction/:txid', TransactionController.getTransaction);
 routes.post('/transaction', AuthenticationService.authorize, upload.single('file'), TransactionController.createTransaction);
 
 //Archives
